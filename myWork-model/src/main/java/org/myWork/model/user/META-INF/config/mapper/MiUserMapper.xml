@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.myWork.model.user.dao.MiUserDao">
+
+	<resultMap id="miUserResultMap" type="org.myWork.model.user.po.MiUser">
+	   <id property="userId" column="USER_ID" />
+       <result property="userName" column="USER_NAME" />
+       <result property="passWord" column="PASS_WORD" />
+       <result property="mobilePhone" column="MOBILE_PHONE" />
+       <result property="userLevel" column="USER_LEVEL" />
+       <result property="checkFlag" column="CHECK_FLAG" />
+       <result property="status" column="STATUS" />
+       <result property="createDate" column="CREATE_DATE" />
+       <result property="createUser" column="CREATE_USER" />
+       <result property="updateDate" column="UPDATE_DATE" />
+       <result property="updateUser" column="UPDATE_USER" />
+       <result property="valid" column="VALID" />
+	</resultMap>
+	<!-- 
+	<resultMap id="pageResultMap" type="java.util.HashMap"
+		extends="pdBidOfferResultMap">
+		<result property="oilgasType" column="OILGAS_TYPE" />
+		<result property="productName" column="PRODUCT_NAME" />
+		<result property="productGrade" column="PRODUCT_GRADE" />
+		<result property="specId" column="SPEC_ID" />
+		<result property="productStandard" column="PRODUCT_STANDARD" />
+		<result property="region" column="REGION" />
+		<result property="productBrand" column="PRODUCT_BRAND" />
+	</resultMap>
+	 -->
+	<insert id="insert" parameterType="org.myWork.model.user.po.MiUser" useGeneratedKeys="true" keyProperty="userId" >
+	   insert into mi_user (
+		  USER_ID,
+	      USER_NAME,
+	      PASS_WORD,
+	      MOBILE_PHONE,
+	      USER_LEVEL,
+	      CHECK_FLAG,
+	      STATUS,
+	      CREATE_DATE,
+	      CREATE_USER,
+	      UPDATE_DATE,
+	      UPDATE_USER,
+	      VALID
+	   )values (
+	     #{userId},
+	     #{userName},
+	     #{passWord},
+	     #{mobilePhone},
+	     #{userLevel},
+	     #{checkFlag},
+	     #{status},
+	     #{createUser},
+	     #{createDate},
+	     #{updateUser},
+	     #{updateDate},
+	     #{valid}
+	   )
+	</insert>
+
+	<update id="update" parameterType="org.myWork.model.user.po.MiUser">
+		update mi_user
+		<set>
+			<if test="userName != null and userName !=''">
+				USER_NAME=#{userName},
+			</if>
+			<if test="passWord != null and passWord !=''">
+				PASS_WORD=#{passWord},
+			</if>
+			<if test="mobilePhone != null and mobilePhone !=''">
+				MOBILE_PHONE=#{mobilePhone},
+			</if>
+			<if test="userLevel != null and userLevel !=''">
+				USER_LEVEL=#{userLevel},
+			</if>
+			<if test="checkFlag != null and checkFlag!=''">
+				CHECK_FLAG=#{checkFlag},
+			</if>
+			<if test="status != null and status!=''">
+				STATUS=#{status},
+			</if>
+			<if test="createUser != null and createUser !=''">
+				CREATE_USER=#{createUser},
+			</if>
+			<if test="createDate != null and createDate !=''">
+				CREATE_DATE=#{createDate},
+			</if>
+			<if test="updateUser != null and updateUser !=''">
+				UPDATE_USER=#{updateUser},
+			</if>
+			<if test="updateDate != null and updateDate !=''">
+				UPDATE_DATE=#{updateDate},
+			</if>
+			<if test="valid != null">
+				VALID=#{valid},
+			</if>
+		</set>
+		<where>
+			USER_ID=#{userId}
+		</where>
+	</update>
+	
+	
+
+	<select id="selectObject" parameterType="map" resultMap="miUserResultMap">
+	   select 
+	   	  USER_ID,
+	      USER_NAME,
+	      PASS_WORD,
+	      MOBILE_PHONE,
+	      USER_LEVEL,
+	      CHECK_FLAG,
+	      STATUS,
+	      CREATE_DATE,
+	      CREATE_USER,
+	      UPDATE_DATE,
+	      UPDATE_USER,
+	      VALID
+	   from mi_user
+	   where 
+	    USER_ID=#{userId} 
+	</select>
+	
+	<select id="selectUserById" parameterType="java.lang.String" resultType="org.myWork.model.user.po.MiUser">
+	   select 
+	      USER_ID as userId,
+	      USER_NAME as userName,
+	      PASS_WORD as passWord,
+	      MOBILE_PHONE as mobilePhone,
+	      USER_LEVEL as userLevel,
+	      CHECK_FLAG as checkFlag,
+	      STATUS as status,
+	      CREATE_DATE as createDate,
+	      CREATE_USER as createUser,
+	      UPDATE_DATE as updateDate,
+	      UPDATE_USER as updateUser,
+	      VALID as valid
+	   from mi_user
+	   <where>
+	   		USER_ID=#{userId}
+	   </where> 
+	   </select>
+	<!-- END -->
+	
+	
+	<!-- 
+	<select id="selectObjectList" parameterType="map" resultMap="pdBidOfferResultMap">
+	   select 
+	      OFFER_ID,
+	      PRODUCT_ID,
+	      OFFER_TYPE,
+	      UNIT_PRICE,
+	      AMOUNT,
+	      REMAIN_AMOUNT,
+	      TOTAL_PRICE,
+	      EXPIRY_DATE,
+	      PAY_INFO_ID,
+	      PAY_STATUS,
+	      CREATE_DATE,
+	      CREATE_USER,
+	      UPDATE_DATE,
+	      UPDATE_USER,
+	      PENDING_TYPE,
+	      PRE_PENDING_DATE,
+	      PENDING_STATUS,
+	      RECEIVE_INFO,
+	      DELIVERY_INFO,
+	      INVOICE_FLAG,
+	      INVOICE_INFO,
+	      DISCOUNT,
+	      BELONG_CORP,
+	      PAY_METHOD,
+	      FAKE,
+	      VALID,
+	      VERSION
+	   from pd_bid_offer
+	   <where>
+	     	<if test="offerId != null and offerId !=''">
+				OFFER_ID=#{offerId} 
+			</if>
+	     	<if test="productId != null and productId !=''">
+				and PRODUCT_ID=#{productId}
+			</if>
+			<if test="offerType != null and offerType !=''">
+				and OFFER_TYPE=#{offerType}
+			</if>
+			<if test="unitPrice != null">
+				and UNIT_PRICE=#{unitPrice}
+			</if>
+			<if test="amount != null">
+				and AMOUNT=#{amount}
+			</if>
+			<if test="remainAmount != null">
+				and REMAIN_AMOUNT=#{remainAmount}
+			</if>
+			<if test="totalPrice != null">
+				and TOTAL_PRICE=#{totalPrice}
+			</if>
+			<if test="expiryDate != null and expiryDate !=''">
+				and EXPIRY_DATE=#{expiryDate}
+			</if>
+			<if test="payInfoId != null and payInfoId !=''">
+				and PAY_INFO_ID=#{payInfoId}
+			</if>
+			<if test="payStatus != null and payStatus !=''">
+				and PAY_STATUS=#{payStatus}
+			</if>
+			<if test="createUser != null">
+				and CREATE_USER=#{createUser}
+			</if>
+			<if test="createDate != null">
+				and CREATE_DATE=#{createDate}
+			</if>
+			<if test="updateDate != null">
+				and UPDATE_DATE=#{updateDate}
+			</if>
+			<if test="updateUser != null">
+				and UPDATE_USER=#{updateUser}
+			</if>
+			<if test="pendingType != null">
+				and PENDING_TYPE=#{pendingType}
+			</if>
+			<if test="prePendingDate != null">
+				and PRE_PENDING_DATE=#{prePendingDate}
+			</if>
+			<if test="pendingStatus != null">
+				and PENDING_STATUS=#{pendingStatus}
+			</if>
+			<if test="receiveInfo != null">
+				and RECEIVE_INFO=#{receiveInfo}
+			</if>
+			<if test="deliveryInfo != null">
+				and DELIVERY_INFO=#{deliveryInfo}
+			</if>
+			<if test="invoiceFlag != null">
+				and INVOICE_FLAG=#{invoiceFlag}
+			</if>
+			<if test="discount != null">
+				and DISCOUNT=#{discount}
+			</if>
+			<if test="belongCorp != null">
+				and BELONG_CORP=#{belongCorp}
+			</if>
+			<if test="payMethod != null">
+				and PAY_METHOD=#{payMethod}
+			</if>
+			<if test="notCanceledOff != null">
+				and (PENDING_STATUS='2' OR PENDING_STATUS='0')
+			</if>
+			<if test="outExpDate != null">
+				and EXPIRY_DATE &lt; now()
+			</if>
+			<if test="valid != null">
+				and VALID=#{valid}
+			</if>
+	   </where>
+	</select>
+
+	<select id="selectMap" parameterType="map" resultMap="pdBidOfferResultMap">
+	    select 
+	      OFFER_ID,
+	      PRODUCT_ID,
+	      OFFER_TYPE,
+	      UNIT_PRICE,
+	      AMOUNT,
+	      REMAIN_AMOUNT,
+	      TOTAL_PRICE,
+	      EXPIRY_DATE,
+	      PAY_INFO_ID,
+	      PAY_STATUS,
+	      CREATE_DATE,
+	      CREATE_USER,
+	      UPDATE_DATE,
+	      UPDATE_USER,
+	      PENDING_TYPE,
+	      PRE_PENDING_DATE,
+	      PENDING_STATUS,
+	      RECEIVE_INFO,
+	      DELIVERY_INFO,
+	      INVOICE_FLAG,
+	      INVOICE_INFO,
+	      DISCOUNT,
+	      BELONG_CORP,
+	      PAY_METHOD,
+	      VALID,
+	      VERSION
+	   from pd_bid_offer
+	   <where>
+	     	<if test="offerId != null and offerId !=''">
+				OFFER_ID=#{offerId} 
+			</if>
+	     	<if test="productId != null and productId !=''">
+				and PRODUCT_ID=#{productId}
+			</if>
+			<if test="offerType != null and offerType !=''">
+				and OFFER_TYPE=#{offerType}
+			</if>
+			<if test="unitPrice != null and unitPrice !=''">
+				and UNIT_PRICE=#{unitPrice}
+			</if>
+			<if test="amount != null and amount !=''">
+				and AMOUNT=#{amount}
+			</if>
+			<if test="remainAmount != null and remainAmount !=''">
+				and REMAIN_AMOUNT=#{remainAmount}
+			</if>
+			<if test="totalPrice != null">
+				and TOTAL_PRICE=#{totalPrice}
+			</if>
+			<if test="expiryDate != null and expiryDate !=''">
+				and EXPIRY_DATE=#{expiryDate}
+			</if>
+			<if test="payInfoId != null and payInfoId !=''">
+				and PAY_INFO_ID=#{payInfoId}
+			</if>
+			<if test="payStatus != null and payStatus !=''">
+				and PAY_STATUS=#{payStatus}
+			</if>
+			<if test="createUser != null">
+				and CREATE_USER=#{createUser}
+			</if>
+			<if test="createDate != null">
+				and CREATE_DATE=#{createDate}
+			</if>
+			<if test="updateDate != null">
+				and UPDATE_DATE=#{updateDate}
+			</if>
+			<if test="updateUser != null">
+				and UPDATE_USER=#{updateUser}
+			</if>
+			<if test="pendingType != null">
+				and PENDING_TYPE=#{pendingType}
+			</if>
+			<if test="prePendingDate != null">
+				and PRE_PENDING_DATE=#{prePendingDate}
+			</if>
+			<if test="pendingStatus != null">
+				and PENDING_STATUS=#{pendingStatus}
+			</if>
+			<if test="receiveInfo != null">
+				and RECEIVE_INFO=#{receiveInfo}
+			</if>
+			<if test="deliveryInfo != null">
+				and DELIVERY_INFO=#{deliveryInfo}
+			</if>
+			<if test="invoiceFlag != null">
+				and INVOICE_FLAG=#{invoiceFlag}
+			</if>
+			<if test="discount != null">
+				and DISCOUNT=#{discount}
+			</if>
+			<if test="belongCorp != null">
+				and BELONG_CORP=#{belongCorp}
+			</if>
+			<if test="payMethod != null">
+				and PAY_METHOD=#{payMethod}
+			</if>
+			<if test="valid != null">
+				and VALID=#{valid}
+			</if>
+	   </where>
+	</select>
+
+	<select id="selectMapList" parameterType="map" resultMap="pdBidOfferResultMap">
+	    select 
+	      OFFER_ID,
+	      PRODUCT_ID,
+	      OFFER_TYPE,
+	      UNIT_PRICE,
+	      AMOUNT,
+	      REMAIN_AMOUNT,
+	      TOTAL_PRICE,
+	      EXPIRY_DATE,
+	      PAY_INFO_ID,
+	      PAY_STATUS,
+	      CREATE_DATE,
+	      CREATE_USER,
+	      UPDATE_DATE,
+	      UPDATE_USER,
+	      PENDING_TYPE,
+	      PRE_PENDING_DATE,
+	      PENDING_STATUS,
+	      RECEIVE_INFO,
+	      DELIVERY_INFO,
+	      INVOICE_FLAG,
+	      INVOICE_INFO,
+	      DISCOUNT,
+	      BELONG_CORP,
+	      PAY_METHOD,
+	      VALID,
+	      VERSION
+	   from pd_bid_offer
+	   <where>
+	     	<if test="offerId != null and offerId !=''">
+				OFFER_ID=#{offerId} 
+			</if>
+	     	<if test="productId != null and productId !=''">
+				and PRODUCT_ID=#{productId}
+			</if>
+			<if test="offerType != null and offerType !=''">
+				and OFFER_TYPE=#{offerType}
+			</if>
+			<if test="unitPrice != null and unitPrice !=''">
+				and UNIT_PRICE=#{unitPrice}
+			</if>
+			<if test="amount != null and amount !=''">
+				and AMOUNT=#{amount}
+			</if>
+			<if test="remainAmount != null and remainAmount !=''">
+				and REMAIN_AMOUNT=#{remainAmount}
+			</if>
+			<if test="totalPrice != null">
+				and TOTAL_PRICE=#{totalPrice}
+			</if>
+			<if test="expiryDate != null and expiryDate !=''">
+				and EXPIRY_DATE=#{expiryDate}
+			</if>
+			<if test="payInfoId != null and payInfoId !=''">
+				and PAY_INFO_ID=#{payInfoId}
+			</if>
+			<if test="payStatus != null and payStatus !=''">
+				and PAY_STATUS=#{payStatus}
+			</if>
+			<if test="createUser != null">
+				and CREATE_USER=#{createUser}
+			</if>
+			<if test="createDate != null">
+				and CREATE_DATE=#{createDate}
+			</if>
+			<if test="updateDate != null">
+				and UPDATE_DATE=#{updateDate}
+			</if>
+			<if test="updateUser != null">
+				and UPDATE_USER=#{updateUser}
+			</if>
+			<if test="pendingType != null">
+				and PENDING_TYPE=#{pendingType}
+			</if>
+			<if test="prePendingDate != null">
+				and PRE_PENDING_DATE=#{prePendingDate}
+			</if>
+			<if test="pendingStatus != null">
+				and PENDING_STATUS=#{pendingStatus}
+			</if>
+			<if test="receiveInfo != null">
+				and RECEIVE_INFO=#{receiveInfo}
+			</if>
+			<if test="deliveryInfo != null">
+				and DELIVERY_INFO=#{deliveryInfo}
+			</if>
+			<if test="invoiceFlag != null">
+				and INVOICE_FLAG=#{invoiceFlag}
+			</if>
+			<if test="discount != null">
+				and DISCOUNT=#{discount}
+			</if>
+			<if test="belongCorp != null">
+				and BELONG_CORP=#{belongCorp}
+			</if>
+			<if test="payMethod != null">
+				and PAY_METHOD=#{payMethod}
+			</if>
+			<if test="valid != null">
+				and VALID=#{valid}
+			</if>
+	   </where>
+	</select>
+	
+	<select id="page" parameterType="map" resultMap="pageResultMap">
+	    select 
+	      a.OFFER_ID,
+	      a.PRODUCT_ID,
+	      a.OFFER_TYPE,
+	      a.UNIT_PRICE,
+	      a.AMOUNT,
+	      a.REMAIN_AMOUNT,
+	      a.TOTAL_PRICE,
+	      a.EXPIRY_DATE,
+	      a.PAY_INFO_ID,
+	      a.PAY_STATUS,
+	      a.CREATE_DATE,
+	      a.CREATE_USER,
+	      a.UPDATE_DATE,
+	      a.UPDATE_USER,
+	      a.PENDING_TYPE,
+	      a.PRE_PENDING_DATE,
+	      a.PENDING_STATUS,
+	      a.RECEIVE_INFO,
+	      a.DELIVERY_INFO,
+	      a.INVOICE_FLAG,
+	      a.INVOICE_INFO,
+	      a.DISCOUNT,
+	      a.VALID,
+	      a.BELONG_CORP,
+	      a.PAY_METHOD,
+	      b.OILGAS_TYPE,
+		  b.PRODUCT_NAME,
+		  b.PRODUCT_GRADE,
+		  b.SPEC_ID,
+		  b.PRODUCT_STANDARD,
+		  b.REGION,
+		  b.PRODUCT_BRAND
+	<include refid="pageCondition" />
+		<if test="sortUpriceDesc != null"> order by a.UNIT_PRICE desc </if>
+		<if test="sortUpriceAsc != null"> order by a.UNIT_PRICE</if>
+		<if test="sortCreTime != null"> order by a.CREATE_DATE desc </if>
+		limit #{offset},#{rows} 
+	</select>
+
+	<select id="pageCount" parameterType="map" resultType="int">
+	   select count(1)
+	   <include refid="pageCondition" />
+	</select>
+
+	<sql id="pageCondition">
+	   from pd_bid_offer a
+	   left join pd_bid_product b on a.PRODUCT_ID = b.PRODUCT_ID
+	   <where>
+	     	<if test="offerId != null and offerId !=''">
+				a.OFFER_ID=#{offerId} 
+			</if>
+	     	<if test="productId != null and productId !=''">
+				and a.PRODUCT_ID=#{productId}
+			</if>
+			<if test="offerType != null and offerType !=''">
+				and a.OFFER_TYPE=#{offerType}
+			</if>
+			<if test="unitPrice != null and unitPrice !=''">
+				and a.UNIT_PRICE=#{unitPrice}
+			</if>
+			<if test="amount != null">
+				and a.AMOUNT=#{amount}
+			</if>
+			<if test="remainAmount != null">
+				and a.REMAIN_AMOUNT=#{remainAmount}
+			</if>
+			<if test="remainAmountNotZero != null">
+				and a.REMAIN_AMOUNT>0
+			</if>
+			<if test="totalPrice != null">
+				and a.TOTAL_PRICE=#{totalPrice}
+			</if>
+			<if test="expiryDate != null and expiryDate !=''">
+				and a.EXPIRY_DATE>now()
+			</if>
+			<if test="todayOffer != null and todayOffer !=''">
+				and to_days(a.EXPIRY_DATE) = to_days(now()) 
+			</if>
+			<if test="payInfoId != null and payInfoId !=''">
+				and a.PAY_INFO_ID=#{payInfoId}
+			</if>
+			<if test="payStatus != null and payStatus !=''">
+				and a.PAY_STATUS=#{payStatus}
+			</if>
+			<if test="createUser != null">
+				and a.CREATE_USER=#{createUser}
+			</if>
+			<if test="createDate != null">
+				and a.CREATE_DATE=#{createDate}
+			</if>
+			<if test="timeGt != null and timeGt !=''">
+				and a.CREATE_DATE &gt;= #{timeGt}
+			</if>
+			<if test="updateDate != null">
+				and a.UPDATE_DATE=#{updateDate}
+			</if>
+			<if test="updateUser != null">
+				and a.UPDATE_USER=#{updateUser}
+			</if>
+			<if test="pendingType != null">
+				and a.PENDING_TYPE=#{pendingType}
+			</if>
+			<if test="prePendingDate != null">
+				and a.PRE_PENDING_DATE=#{prePendingDate}
+			</if>
+			<if test="pendingStatus != null and pendingStatus!=''">
+				and a.PENDING_STATUS=#{pendingStatus}
+			</if>
+			<if test="receiveInfo != null">
+				and a.RECEIVE_INFO=#{receiveInfo}
+			</if>
+			<if test="deliveryInfo != null">
+				and a.DELIVERY_INFO=#{deliveryInfo}
+			</if>
+			<if test="invoiceFlag != null">
+				and a.INVOICE_FLAG=#{invoiceFlag}
+			</if>
+			<if test="discount != null">
+				and a.DISCOUNT=#{discount}
+			</if>
+			<if test="belongCorp != null">
+				and a.BELONG_CORP=#{belongCorp}
+			</if>
+			<if test="payMethod != null">
+				and a.PAY_METHOD=#{payMethod}
+			</if>
+			<if test="valid != null">
+				and a.VALID=#{valid}
+			</if>
+			<if test="productEffe != null">
+				and b.EFFECTIVE_DATE=now() 
+			</if>
+			<if test="productValid != null">
+				and b.VALID='1'
+			</if>
+	   </where>
+	</sql>
+	<select id="selectOfferList" parameterType="map" resultMap="pdBidOfferResultMap">
+	   select 
+	      a.OFFER_ID,
+	      a.PRODUCT_ID,
+	      a.OFFER_TYPE,
+	      a.UNIT_PRICE,
+	      a.AMOUNT,
+	      a.REMAIN_AMOUNT,
+	      a.TOTAL_PRICE,
+	      a.EXPIRY_DATE,
+	      a.VALID
+	   from pd_bid_offer a
+	   <where>
+	     	<if test="offerId != null and offerId !=''">
+				a.OFFER_ID=#{offerId} 
+			</if>
+	     	<if test="productId != null and productId !=''">
+				and a.PRODUCT_ID=#{productId}
+			</if>
+			<if test="offerType != null and offerType !=''">
+				and a.OFFER_TYPE=#{offerType}
+			</if>
+			<if test="unitPrice != null and unitPrice !=''">
+				and a.UNIT_PRICE=#{unitPrice}
+			</if>
+			<if test="amount != null">
+				and a.AMOUNT=#{amount}
+			</if>
+			<if test="remainAmount != null">
+				and a.REMAIN_AMOUNT=#{remainAmount}
+			</if>
+			<if test="remainAmountNotZero != null">
+				and a.REMAIN_AMOUNT>0
+			</if>
+			<if test="totalPrice != null">
+				and a.TOTAL_PRICE=#{totalPrice}
+			</if>
+			<if test="expiryDate != null and expiryDate !=''">
+				and a.EXPIRY_DATE>now()
+			</if>
+			<if test="todayOffer != null and todayOffer !=''">
+				and to_days(a.EXPIRY_DATE) = to_days(now()) 
+			</if>
+			<if test="payInfoId != null and payInfoId !=''">
+				and a.PAY_INFO_ID=#{payInfoId}
+			</if>
+			<if test="payStatus != null and payStatus !=''">
+				and a.PAY_STATUS=#{payStatus}
+			</if>
+			<if test="createUser != null">
+				and a.CREATE_USER=#{createUser}
+			</if>
+			<if test="createDate != null">
+				and a.CREATE_DATE=#{createDate}
+			</if>
+			<if test="timeGt != null and timeGt !=''">
+				and a.CREATE_DATE &gt;= #{timeGt}
+			</if>
+			<if test="updateDate != null">
+				and a.UPDATE_DATE=#{updateDate}
+			</if>
+			<if test="updateUser != null">
+				and a.UPDATE_USER=#{updateUser}
+			</if>
+			<if test="pendingType != null">
+				and a.PENDING_TYPE=#{pendingType}
+			</if>
+			<if test="prePendingDate != null">
+				and a.PRE_PENDING_DATE=#{prePendingDate}
+			</if>
+			<if test="pendingStatus != null and pendingStatus!=''">
+				and a.PENDING_STATUS=#{pendingStatus}
+			</if>
+			<if test="receiveInfo != null">
+				and a.RECEIVE_INFO=#{receiveInfo}
+			</if>
+			<if test="deliveryInfo != null">
+				and a.DELIVERY_INFO=#{deliveryInfo}
+			</if>
+			<if test="invoiceFlag != null">
+				and a.INVOICE_FLAG=#{invoiceFlag}
+			</if>
+			<if test="discount != null">
+				and a.DISCOUNT=#{discount}
+			</if>
+			<if test="belongCorp != null">
+				and a.BELONG_CORP=#{belongCorp}
+			</if>
+			<if test="payMethod != null">
+				and a.PAY_METHOD=#{payMethod}
+			</if>
+			<if test="valid != null">
+				and a.VALID=#{valid}
+			</if>
+	   </where>
+	   		<if test="sortUpriceDesc != null"> order by a.UNIT_PRICE desc </if>
+		<if test="sortUpriceAsc != null"> order by a.UNIT_PRICE</if>
+		<if test="sortCreTime != null"> order by a.CREATE_DATE desc </if>
+		limit 0,#{count} 
+	</select>
+	 -->
+</mapper> 
